@@ -12,6 +12,7 @@ class LoginPage extends StatelessWidget {
           SizedBox(
             height: 20.0,
           ),
+          // new feauter add in login form
           Text(
             "Welcome",
             style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
