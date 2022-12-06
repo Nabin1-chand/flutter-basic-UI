@@ -15,8 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "flutter demo",
       routes: {
-        "/home": (context) => const MyWidget(),
-        "/": (context) => LoginPage()
+        "/": (context) => MyWidget(),
+        "/login": (context) => LoginPage()
       },
     );
   }
