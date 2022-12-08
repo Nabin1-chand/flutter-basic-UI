@@ -47,17 +47,24 @@ class _MyWidgetState extends State<MyWidget> {
     // final dummyList = List.generate(20, (index) => CatalogModal.items[0]);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My App'),
+        title: const Text('My Ecommerce'),
       ),
       body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: (CatalogModal.items != null && CatalogModal.items!.isNotEmpty)
               ? ListView.builder(
-                  scrollDirection: Axis.vertical,
+                  // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //   crossAxisCount: 2,
+                  //   mainAxisSpacing: 60,
+                  //   crossAxisSpacing: 15,
+                  // ),
+                  itemBuilder: (context, index) {
+                    Item item = CatalogModal.items![index];
+                    return ItemWidget(
+                      item: item,
+                    );
+                  },
                   itemCount: CatalogModal.items!.length,
-                  itemBuilder: ((context, index) {
-                    return ItemWidget(item: CatalogModal.items![index]);
-                  }),
                 )
               : Center(
                   child: CircularProgressIndicator(),
