@@ -1,3 +1,4 @@
+import 'package:first_app/modal/cart.dart';
 import 'package:first_app/modal/category.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,64 +12,48 @@ class ItemWidget extends StatefulWidget {
 }
 
 class _ItemWidgetState extends State<ItemWidget> {
-  int counter = 0;
-
-  bool shotext = false;
-
+  final _cart = Cart();
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Center(child: cardWidget()),
-    );
-  }
-
-  Widget buildOverflowingRow() {
-    // #docregion overflowing-row
-
-    return ListTile(
-      visualDensity: VisualDensity(vertical: 4),
-      leading: Image.network(
-        widget.item.image,
-      ),
-      title: Text(widget.item.name),
-      subtitle: Text(widget.item.desc),
-      trailing: Container(
-        height: 80,
-        child: Column(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
           children: [
-            Text(widget.item.price.toString()),
-            SizedBox(height: 10),
-            SizedBox(
-              width: 85.0,
-              height: 30.0,
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    counter++;
-                    print("clicked");
-                  });
-                },
-                child: Text('Add To Cart', style: TextStyle(fontSize: 10)),
+            Hero(
+              tag: Key(widget.item.id.toString()),
+              child: Image.network(
+                widget.item.image,
+                height: 100,
               ),
             ),
-            Text("$counter item added")
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(widget.item.name),
+                ButtonBar(
+                  alignment: MainAxisAlignment.spaceBetween,
+                  buttonPadding: EdgeInsets.zero,
+                  children: [
+                    Text("\$${widget.item.price}"),
+                    ElevatedButton(
+                        onPressed: () {
+                          _cart.add(widget.item);
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Color.fromARGB(255, 50, 65, 47)),
+                            shape: MaterialStateProperty.all(StadiumBorder())),
+                        child: Text(
+                          "Add to cart",
+                          style: TextStyle(fontSize: 10),
+                        ))
+                  ],
+                )
+              ],
+            )),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget cardWidget() {
-    return Container(
-      height: 100,
-      child: Card(
-        child: buildOverflowingRow(),
-      ),
-    );
-  }
-
-  Widget text() {
-    return Text("");
+        ));
   }
 }

@@ -27,6 +27,12 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  late FocusNode myFocusNode;
+  void initState() {
+    super.initState();
+    myFocusNode = FocusNode();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -36,10 +42,11 @@ class _LoginPageState extends State<LoginPage> {
           key: _formkey,
           child: Column(
             children: [
-              Image.asset("images/login_image.png", fit: BoxFit.cover),
               SizedBox(
-                height: 0.0,
+                height: 30,
               ),
+              Image.asset("images/login_image.png",
+                  height: 150, fit: BoxFit.cover),
               // new feauter add in login form
               Text(
                 "Welcome $name",
@@ -54,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      focusNode: myFocusNode,
                       decoration: InputDecoration(
                         hintText: "Enter your name",
                         labelText: "Username",
@@ -70,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                     TextFormField(
+                      // focusNode: myFocusNode,
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: "Enter your password",
@@ -89,17 +98,15 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Material(
                       color: Colors.deepPurple,
-                      borderRadius:
-                          BorderRadius.circular(changeButton ? 50 : 8),
+                      borderRadius: BorderRadius.circular(50),
                       child: InkWell(
                         onTap: () => moveToHome(context),
-                        child: AnimatedContainer(
-                          duration: Duration(seconds: 1),
-                          width: changeButton ? 70 : 150,
+                        child: Container(
+                          width: 150,
                           height: 50,
                           child: Center(
                             child: changeButton
-                                ? Icon(Icons.done)
+                                ? CircularProgressIndicator()
                                 : Text(
                                     "Login",
                                     style: TextStyle(

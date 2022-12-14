@@ -1,5 +1,6 @@
 import 'package:first_app/modal/category.dart';
 import 'package:first_app/pages/drawer.dart';
+import 'package:first_app/pages/home_detail.dart';
 import 'package:first_app/pages/item_Widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -17,20 +18,13 @@ class MyWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MyWidget> {
-  List<Map<String, dynamic>> mapdata = [
-    {"id": 1, "name": "Nabin"}
-  ];
-
   @override
   void initState() {
     super.initState();
     loadData();
   }
 
-  // List<dynamic>? data;
-
   loadData() async {
-    // data = mapdata.map(((data) => data)).toList();
     await Future.delayed(Duration(seconds: 2));
     final catalogJson = await rootBundle.loadString("files/catalog.json");
     // print(catalogJson);
@@ -44,13 +38,21 @@ class _MyWidgetState extends State<MyWidget> {
   }
 
   Widget build(BuildContext context) {
-    // final dummyList = List.generate(20, (index) => CatalogModal.items[0]);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, "/cartpage");
+          },
+          child: Icon(CupertinoIcons.cart)),
       appBar: AppBar(
-        title: const Text('My Ecommerce'),
+        backgroundColor: Color.fromARGB(255, 208, 212, 212),
+        elevation: 0.0,
+        title: const Text(
+          "Trending Product",
+        ),
       ),
-      body: Padding(
-          padding: const EdgeInsets.all(8.0),
+      body: Container(
+          margin: EdgeInsets.only(top: 60),
           child: (CatalogModal.items != null && CatalogModal.items!.isNotEmpty)
               ? ListView.builder(
                   // gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -60,8 +62,17 @@ class _MyWidgetState extends State<MyWidget> {
                   // ),
                   itemBuilder: (context, index) {
                     Item item = CatalogModal.items![index];
-                    return ItemWidget(
-                      item: item,
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeDetail(item: item),
+                            ));
+                      },
+                      child: ItemWidget(
+                        item: item,
+                      ),
                     );
                   },
                   itemCount: CatalogModal.items!.length,
@@ -69,7 +80,7 @@ class _MyWidgetState extends State<MyWidget> {
               : Center(
                   child: CircularProgressIndicator(),
                 )),
-      drawer: SlideBar(),
+      // drawer: SlideBar(),
     );
   }
 }
